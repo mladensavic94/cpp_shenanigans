@@ -214,14 +214,51 @@ int main() {
     backward(result);
     visualize(result);
 
-    auto n = MLP(3,{4,4,1});
-    std::vector<std::vector<Val>> xs = {{make_val(2.0), make_val(3.0), make_val(-1.0)},
-                {make_val(3.0), make_val(1.0), make_val(0.5)},
-                {make_val(0.5), make_val(1.0), make_val(1.0)},
-                {make_val(1.0), make_val(1.0), make_val(-1.0)}};
-    std::vector<Val> ys = {make_val(1.0),make_val(-1.0),make_val(-1.0),make_val(1.0)};
+    auto n = MLP(5,{6,6,6,6,6,1});
+    std::vector<std::vector<Val>> xs = {
+        {make_val(0.0), make_val(0.0), make_val(0.0), make_val(0.0), make_val(0.0)},
+        {make_val(0.0), make_val(0.0), make_val(0.0), make_val(0.0), make_val(1.0)},
+        {make_val(0.0), make_val(0.0), make_val(0.0), make_val(1.0), make_val(0.0)},
+        {make_val(0.0), make_val(0.0), make_val(0.0), make_val(1.0), make_val(1.0)},
+        {make_val(0.0), make_val(0.0), make_val(1.0), make_val(0.0), make_val(0.0)},
+        {make_val(0.0), make_val(0.0), make_val(1.0), make_val(0.0), make_val(1.0)},
+        {make_val(0.0), make_val(0.0), make_val(1.0), make_val(1.0), make_val(0.0)},
+        {make_val(0.0), make_val(0.0), make_val(1.0), make_val(1.0), make_val(1.0)},
+        {make_val(0.0), make_val(1.0), make_val(0.0), make_val(0.0), make_val(0.0)},
+        {make_val(0.0), make_val(1.0), make_val(0.0), make_val(0.0), make_val(1.0)},
+        {make_val(0.0), make_val(1.0), make_val(0.0), make_val(1.0), make_val(0.0)},
+        {make_val(0.0), make_val(1.0), make_val(0.0), make_val(1.0), make_val(1.0)},
+        {make_val(0.0), make_val(1.0), make_val(1.0), make_val(0.0), make_val(0.0)},
+        {make_val(0.0), make_val(1.0), make_val(1.0), make_val(0.0), make_val(1.0)},
+        {make_val(0.0), make_val(1.0), make_val(1.0), make_val(1.0), make_val(0.0)},
+        {make_val(0.0), make_val(1.0), make_val(1.0), make_val(1.0), make_val(1.0)},
+        {make_val(1.0), make_val(0.0), make_val(0.0), make_val(0.0), make_val(0.0)},
+        {make_val(1.0), make_val(0.0), make_val(0.0), make_val(0.0), make_val(1.0)},
+        {make_val(1.0), make_val(0.0), make_val(0.0), make_val(1.0), make_val(0.0)},
+        {make_val(1.0), make_val(0.0), make_val(0.0), make_val(1.0), make_val(1.0)},
+        {make_val(1.0), make_val(0.0), make_val(1.0), make_val(0.0), make_val(0.0)},
+        {make_val(1.0), make_val(0.0), make_val(1.0), make_val(0.0), make_val(1.0)},
+        {make_val(1.0), make_val(0.0), make_val(1.0), make_val(1.0), make_val(0.0)},
+        {make_val(1.0), make_val(0.0), make_val(1.0), make_val(1.0), make_val(1.0)},
+        {make_val(1.0), make_val(1.0), make_val(0.0), make_val(0.0), make_val(0.0)},
+        {make_val(1.0), make_val(1.0), make_val(0.0), make_val(0.0), make_val(1.0)},
+        {make_val(1.0), make_val(1.0), make_val(0.0), make_val(1.0), make_val(0.0)},
+        {make_val(1.0), make_val(1.0), make_val(0.0), make_val(1.0), make_val(1.0)},
+        {make_val(1.0), make_val(1.0), make_val(1.0), make_val(0.0), make_val(0.0)},
+        {make_val(1.0), make_val(1.0), make_val(1.0), make_val(0.0), make_val(1.0)},
+        {make_val(1.0), make_val(1.0), make_val(1.0), make_val(1.0), make_val(0.0)},
+        {make_val(1.0), make_val(1.0), make_val(1.0), make_val(1.0), make_val(1.0)}};
+    std::vector<Val> ys = {
+        make_val(0.0), make_val(1.0), make_val(1.0), make_val(0.0),
+        make_val(1.0), make_val(0.0), make_val(0.0), make_val(1.0),
+        make_val(1.0), make_val(0.0), make_val(0.0), make_val(1.0),
+        make_val(0.0), make_val(1.0), make_val(1.0), make_val(0.0),
+        make_val(1.0), make_val(0.0), make_val(0.0), make_val(1.0),
+        make_val(0.0), make_val(1.0), make_val(1.0), make_val(0.0),
+        make_val(0.0), make_val(1.0), make_val(1.0), make_val(0.0),
+        make_val(1.0), make_val(0.0), make_val(0.0), make_val(1.0)};
 
-    for (size_t i = 0; i < 100; i++)
+    for (size_t i = 0; i < 1000; i++)
     {
         // zero grads before forward pass
         auto params = n.parameters();
@@ -242,14 +279,18 @@ int main() {
         // backward + update
         backward(loss);
         for (auto& p : params)
-            p->data += -0.01f * p->grad;
+            p->data += -0.005 * p->grad;
 
         std::cout << "Iteration: " << i+1 << std::endl;
         std::cout << "Total loss: " << loss << std::endl;
-        for (size_t j = 0; j < ypred.size(); j++)
-        {
-            std::cout << "Prediction " << j+1 << ": " << ypred.at(j) << std::endl;
-        };
     }
+
+    std::cout << "\n=== Final predictions ===" << std::endl;
+    std::vector<Val> ypred_final;
+    auto xpred = {make_val(1),make_val(1),make_val(1),make_val(0),make_val(0)};
+        ypred_final.push_back(n(xpred).at(0));
+    for (size_t j = 0; j < ypred_final.size(); j++)
+        std::cout << "Sample " << j+1 << ": " << ypred_final.at(j) << std::endl;
+
     return 0;
 }
