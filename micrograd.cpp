@@ -123,82 +123,73 @@ void backward(const Val& root) {
 static std::mt19937 rng{std::random_device{}()};
 static std::uniform_real_distribution<double> dist(-1.0, 1.0);
 
-struct Neuron {
+class Neuron {
     std::vector<Val> weights;
     Val bias;
-
+public:
     Neuron(int nin) {
         for (size_t i = 0; i < nin; i++)
-        this->weights.push_back(make_val(dist(rng)));
-        this->bias = make_val(dist(rng));
+            weights.push_back(make_val(dist(rng)));
+        bias = make_val(dist(rng));
     }
 
-    Val operator()(const std::vector<Val>& x) const{
-        auto result = this->bias;
-        for (size_t i = 0; i < this->weights.size(); i++)
-            result = result + this->weights.at(i) * x.at(i);
+    Val operator()(const std::vector<Val>& x) const {
+        auto result = bias;
+        for (size_t i = 0; i < weights.size(); i++)
+            result = result + weights[i] * x[i];
         return tanh_val(result);
     }
 
     std::vector<Val> parameters() const {
-        std::vector<Val> params = {};
-        params.insert(params.end(), this->weights.begin(), this->weights.end());
-        params.push_back(this->bias);
+        std::vector<Val> params(weights.begin(), weights.end());
+        params.push_back(bias);
         return params;
     }
-
 };
 
-struct Layer {
+class Layer {
     std::vector<Neuron> neurons;
-
-    Layer(int in, int out){
+public:
+    Layer(int in, int out) {
         for (size_t i = 0; i < out; i++)
-        {
-            this->neurons.emplace_back(in);
-        }
-        
+            neurons.emplace_back(in);
     }
 
-    std::vector<Val> operator()(const std::vector<Val>& x) const{
-        std::vector<Val> outs = {};
-        for(auto& neuron : neurons){
+    std::vector<Val> operator()(const std::vector<Val>& x) const {
+        std::vector<Val> outs;
+        for (const auto& neuron : neurons)
             outs.push_back(neuron(x));
-        }
         return outs;
     }
 
     std::vector<Val> parameters() const {
-        std::vector<Val> params = {};
-        for (size_t i = 0; i < this->neurons.size(); i++)
-        {
-            auto list = this->neurons.at(i).parameters();
+        std::vector<Val> params;
+        for (const auto& neuron : neurons) {
+            auto list = neuron.parameters();
             params.insert(params.end(), list.begin(), list.end());
         }
         return params;
     }
 };
 
-struct MLP {
+class MLP {
     std::vector<Layer> layers;
-
-    MLP(int in, std::vector<int> outs){
+public:
+    MLP(int in, std::vector<int> outs) {
         outs.insert(outs.begin(), in);
-        for (size_t i = 0; i < outs.size()-1; i++)
-        {
-            this->layers.push_back(Layer(outs.at(i), outs.at(i+1)));
-        }
-    };
-    std::vector<Val> operator()(std::vector<Val> x){
-        for (auto& layer : layers)
+        for (size_t i = 0; i < outs.size() - 1; i++)
+            layers.emplace_back(outs[i], outs[i + 1]);
+    }
+
+    std::vector<Val> operator()(std::vector<Val> x) {
+        for (const auto& layer : layers)
             x = layer(x);
         return x;
     }
-    
+
     std::vector<Val> parameters() const {
-        std::vector<Val> params = {};
-        for (auto& layer : layers)
-        {
+        std::vector<Val> params;
+        for (const auto& layer : layers) {
             auto list = layer.parameters();
             params.insert(params.end(), list.begin(), list.end());
         }
